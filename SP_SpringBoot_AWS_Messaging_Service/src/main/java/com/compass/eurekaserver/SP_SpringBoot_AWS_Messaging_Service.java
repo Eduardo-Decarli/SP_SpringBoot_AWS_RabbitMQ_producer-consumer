@@ -1,4 +1,4 @@
-package com.compass.SP_SpringBoot_AWS_Messaging_Service;
+package com.compass.eurekaserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 @SpringBootApplication
 @EnableEurekaServer
-public class SpSpringBootAwsMessagingServiceApplication {
+public class SP_SpringBoot_AWS_Messaging_Service {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpSpringBootAwsMessagingServiceApplication.class, args);
+		SpringApplication.run(SP_SpringBoot_AWS_Messaging_Service.class, args);
 	}
 
 }

@@ -1,10 +1,10 @@
-package com.compass.SP_SpringBoot_AWS_Messaging_Service;
+package com.compass.eurekaserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpSpringBootAwsMessagingServiceApplicationTests {
+class SPSpringBootAWSMessagingServiceTests {
 
 	@Test
 	void contextLoads() {
