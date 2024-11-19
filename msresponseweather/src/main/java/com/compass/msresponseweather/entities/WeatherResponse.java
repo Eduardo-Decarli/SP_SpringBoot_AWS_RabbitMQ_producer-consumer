@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -12,7 +14,7 @@ import lombok.Setter;
 public class WeatherResponse {
 
     private Main main;
-    private Weather weather;
+    private List<Weather> weather;
 
     @Override
     public String toString() {

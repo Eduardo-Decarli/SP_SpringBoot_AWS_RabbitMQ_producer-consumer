@@ -4,6 +4,7 @@ import com.compass.msresponseweather.entities.WeatherResponse;
 import com.compass.msresponseweather.infra.consumers.WeatherConsumer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +17,7 @@ public class ClientsResource {
     private final String key = "5ab4f39a4b9d42aaff80eeffb3f63064";
     private final String unit = "metric";
 
+    @RabbitListener(queues = "${mq.queues.weather}")
     public void consumeRequest(String city) {
         log.info("Sourch weather in the " + city);
         WeatherResponse consumer = weatherConsumer.getWeather(city, key, unit);
