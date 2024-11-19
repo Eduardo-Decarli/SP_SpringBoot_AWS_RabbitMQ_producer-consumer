@@ -1,4 +1,4 @@
-package com.compass.msweatherAPI.entities;
+package com.compass.msresponseweather.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,4 +15,15 @@ public class Main {
     private double temp_max;
     private double pressure;
     private double humidity;
+
+    @Override
+    public String toString() {
+        return "Main{" +
+                "temp=" + temp +
+                ", temp_min=" + temp_min +
+                ", temp_max=" + temp_max +
+                ", pressure=" + pressure +
+                ", humidity=" + humidity +
+                '}';
+    }
 }

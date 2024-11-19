@@ -9,16 +9,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Weather {
+public class WeatherResponse {
 
-    private String main;
-    private String description;
+    private Main main;
+    private Weather weather;
 
     @Override
     public String toString() {
-        return "Weather{" +
-                "main='" + main + '\'' +
-                ", description='" + description + '\'' +
+        return "WeatherResponse{" +
+                "main=" + main +
+                ", weather=" + weather +
                 '}';
     }
 }
