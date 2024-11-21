@@ -1,6 +1,7 @@
 package com.compass.msweatherAPI.controller;
 
 import com.compass.msweatherAPI.entities.City;
+import com.compass.msweatherAPI.entities.ProtocolRequired;
 import com.compass.msweatherAPI.services.WeatherServices;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,8 @@ public class CityController {
     @PostMapping
     public String requestWeather(@RequestBody City city) throws JsonProcessingException {
         services.requestCity(city);
-        return "Weather forecast request for the city " + city.getName() + " has been sent";
+        ProtocolRequired protocol = services.issuanceRequest();
+        return "Weather forecast request for the city " + city.getName() + " has been sent | Your protocol is " + protocol;
     }
 
 
