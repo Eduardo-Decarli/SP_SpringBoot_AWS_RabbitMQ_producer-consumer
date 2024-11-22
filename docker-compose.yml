@@ -1,39 +1,26 @@
 version: '3.9'
 
 services:
-  msserver:
-    build:
-      context: ./SP_SpringBoot_AWS_Messaging_Service
-    container_name: msserver
-    ports: 
-      - "8761:8761"
-    networks:
-      - ms-network 
-
-  gateway:
-    build:
-      context: ./mscloudgateway
-    container_name: gateway
-    ports: 
-      - "8080:8080" 
-    networks:
-      - ms-network
+  rabbitmq:
+    image: rabbitmq:3.9-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672" 
+      - "15672:15672"
     environment:
-      - EUREKA_SERVER=http://msserver:8761/eureka/
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
 
   msweather:
     build:
       context: ./msweatherAPI
     container_name: msweather
-    expose: 
-      - "8080"
-    depends_on:
-    - msserver
-    networks:
-      - ms-network
-    environment:
-      - EUREKA_SERVER=http://msserver:8761/eureka/
+    ports: 
+      - "8080:8080"
 
-networks:
-  ms-network:
-    driver: bridge
+  msresponseweather:
+    build:
+      context: ./msresponseweather
+    container_name: msresponseweather
+    ports: 
+      - "8081:8081"

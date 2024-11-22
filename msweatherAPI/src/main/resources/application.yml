@@ -2,20 +2,10 @@ spring:
   application:
     name: msweatherAPI
   rabbitmq:
-    host: localhost
+    host: rabbitmq
     port: 5672
     username: guest
     password: guest
-
-server:
-  port: 0
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://msserver:8761/eureka
-  instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 mq:
   queues:

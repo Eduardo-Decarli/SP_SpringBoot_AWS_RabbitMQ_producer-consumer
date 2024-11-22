@@ -21,7 +21,7 @@ public class ClientsResource {
     private final ObjectMapper objectMapper;
 
     @RabbitListener(queues = "${mq.queues.weather}")
-    public void consumeRequest(String response) {
+    public WeatherResponse consumeRequest(String response) {
         try {
             if(response == null) {
                 log.error("Error receiving city");
@@ -30,8 +30,10 @@ public class ClientsResource {
             log.info("Sourch weather in the " + city);
             WeatherResponse consumer = weatherConsumer.getWeather(city.getName(), key, unit);
             System.out.println(consumer);
+            return consumer;
         } catch(Exception e) {
             log.error("Error processing message, city's name is invalid");
         }
+        return null;
     }
 }
