@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  msserver:
+    build:
+      context: ./SP_SpringBoot_AWS_Messaging_Service
+    container_name: msserver
+    ports: 
+      - "8761:8761"
+    networks:
+      - ms-network 
+
+  gateway:
+    build:
+      context: ./mscloudgateway
+    container_name: gateway
+    ports: 
+      - "8080:8080" 
+    networks:
+      - ms-network
+    environment:
+      - EUREKA_SERVER=http://msserver:8761/eureka/
+
+  msweather:
+    build:
+      context: ./msweatherAPI
+    container_name: msweather
+    expose: 
+      - "8080"
+    depends_on:
+    - msserver
+    networks:
+      - ms-network
+    environment:
+      - EUREKA_SERVER=http://msserver:8761/eureka/
+
+networks:
+  ms-network:
+    driver: bridge
