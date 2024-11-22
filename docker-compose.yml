@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.9-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672" 
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  msweather:
+    build:
+      context: ./msweatherAPI
+    container_name: msweather
+    ports: 
+      - "8080:8080"
+
+  msresponseweather:
+    build:
+      context: ./msresponseweather
+    container_name: msresponseweather
+    ports: 
+      - "8081:8081"

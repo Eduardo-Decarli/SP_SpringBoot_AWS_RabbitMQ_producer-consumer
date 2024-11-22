@@ -22,6 +22,4 @@ public class CityController {
         ProtocolRequired protocol = services.issuanceRequest();
         return "Weather forecast request for the city " + city.getName() + " has been sent | Your protocol is " + protocol;
     }
-
-
 }
