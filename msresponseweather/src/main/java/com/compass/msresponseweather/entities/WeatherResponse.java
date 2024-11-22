@@ -18,9 +18,18 @@ public class WeatherResponse {
 
     @Override
     public String toString() {
-        return "WeatherResponse{" +
-                "main=" + main +
-                ", weather=" + weather +
-                '}';
+        String template = "\n\n===========" +
+                "\nTemp: " + main.getTemp() +
+                "\nMin_temp: " + main.getTemp_min() +
+                "\nMax_temp: " + main.getTemp_max() +
+                "\nPressure: " + main.getPressure() +
+                "\nHumidity: " + main.getHumidity();
+
+        for(Weather x: weather) {
+            return template +
+                    "\nWeather: " + x.getMain() +
+                    "\nDescription: " + x.getDescription();
+        }
+        return template;
     }
 }
