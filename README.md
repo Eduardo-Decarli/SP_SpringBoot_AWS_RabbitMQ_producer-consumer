@@ -46,11 +46,14 @@ Once the microservices are running, msweatherAPI will be available on port **808
 
 2. Open a terminal and execute the following command: **docker-compose up -d**. This will download and run the required project images (RabbitMQ, msweather, and msresponseweather).
 
-3. Once the containers are running, navigate to **http://localhost:15672/#/queues** and create a new queue named **weather**. The name must match exactly for the services to locate the queue.
+3. Open Postman and import the **CityCollection** file to access the POST route for sending a city name to the API. You can specify the city in the request body.
 
-4. Open Postman and import the **CityCollection** file to access the POST route for sending a city name to the API. You can specify the city in the request body.
+4. Click **Send** in Postman to generate a request protocol, The weather queue will be persisted in RabbitMQ and the request will be sent through it..
 
-5. Click **Send** in Postman to generate a request protocol.
+5. If the queue does not persist: Once the containers are running, navigate to **http://localhost:15672/#/queues** and create a new queue named **weather**. The name must match exactly for the services to locate the queue.  After creating the **weather** queue, you need to restart the **msresponseweather** container so that it can be associated.
+
+Stop the consumer container: **docker stop msresponseweather**
+Start the consumer container: **docker start msresponseweather**
 
 6. To view the processed information, check the logs of the **msresponseweather** container using the Docker command **"docker logs msresponseweather"**. The weather information for the specified city will be displayed. If an error occurs, stop the msresponseweather container and restart it using Docker Desktop or the **Docker stop/start commands**.
 

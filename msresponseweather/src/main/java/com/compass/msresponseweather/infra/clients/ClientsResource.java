@@ -5,13 +5,14 @@ import com.compass.msresponseweather.entities.WeatherResponse;
 import com.compass.msresponseweather.infra.consumers.WeatherConsumer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-@Slf4j
+@Log4j2
 public class ClientsResource {
 
     private final WeatherConsumer weatherConsumer;
@@ -21,19 +22,20 @@ public class ClientsResource {
     private final ObjectMapper objectMapper;
 
     @RabbitListener(queues = "${mq.queues.weather}")
-    public WeatherResponse consumeRequest(String response) {
+    public void consumeRequest(String response) {
         try {
             if(response == null) {
-                log.error("Error receiving city");
+                log.error("Error receiving message");
             }
             City city = objectMapper.readValue(response, City.class);
-            log.info("Sourch weather in the " + city);
+            log.info("Message received successfully");
+            log.info("searching weather in the " + city);
             WeatherResponse consumer = weatherConsumer.getWeather(city.getName(), key, unit);
-            System.out.println(consumer);
-            return consumer;
+            log.info(
+                    "\n===========" + "\n" +
+                    response + consumer + "\n");
         } catch(Exception e) {
             log.error("Error processing message, city's name is invalid");
         }
-        return null;
     }
 }
