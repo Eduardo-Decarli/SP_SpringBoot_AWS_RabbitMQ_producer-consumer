@@ -7,14 +7,14 @@ import com.compass.msweatherAPI.exceptions.ErrorRequiredProtocol;
 import com.compass.msweatherAPI.mqueue.RequestWeather;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 public class WeatherServices {
 
     private final RequestWeather request;

@@ -18,7 +18,7 @@ public class WeatherResponse {
 
     @Override
     public String toString() {
-        String template = "\n\n===========" +
+        String template = "\n===========" +
                 "\nTemp: " + main.getTemp() +
                 "\nMin_temp: " + main.getTemp_min() +
                 "\nMax_temp: " + main.getTemp_max() +
