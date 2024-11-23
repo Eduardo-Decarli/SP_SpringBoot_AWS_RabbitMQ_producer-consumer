@@ -1,27 +1,21 @@
 # Require Weather Project
 
-Este projeto realiza solicitações e recebimento de previsão do tempo através de um ecosistema de microserviços e integração com uma API privada da **OpenWeatherMap**. Foi utilizado uma arquitetura ms para realizar os projetos e o uso de mensageria **RabbitMQ** para a comunicação assincrona entre os microserviços.
+This project performs requests and retrieves weather forecasts through the integration between a producer and a consumer connected to a private OpenWeatherMap API. The project is built using a microservices architecture and RabbitMQ for asynchronous communication between the microservices.
 
-## Arquitetura
-A aplicação é composta pelos seguintes microserviços:
+## Architecture
 
-- **SP_SpringBoot_AWS_Messaging_Service**
-    - Sobe o servidor Eureka para gerenciar a distribuição entre os microserviços
-
--  **mscloudgateway**
-    - Gerencia uma porta fixa (8080) para poder acessar a aplicação msweatherAPI que está rodando em portas aleatórias
-    - Faz um loadbalance entre aplicações msweatherAPI
+The application consists of the following services:
 
 - **msweatherAPI**
-    - Recebe solicitação de previsão do tempo via POST
-    - Envia solicitações de previsão do tempo para a fila RabbitMQ.
-    - Integra com o RabbitMQ para colocar as mensagens na fila.
-    - Apresenta erros e logs referente a problemas no funcionamento
+    - Receives weather forecast requests via POST.
+    - Sends weather forecast requests to the RabbitMQ queue.
+    - Integrates with RabbitMQ to enqueue messages.
+    - Logs errors and issues related to its operation.
 
 - **msresponseweather**
-    - Consome as mensagens da fila RabbitMQ.
-    - Utiliza o OpenFeign para integrar-se à API do OpenWeatherMap e processar as informações meteorológicas.
-    - Retorna no próprio log uma previsão do tempo.
+    - Consumes messages from the RabbitMQ queue.
+    - Uses OpenFeign to integrate with the OpenWeatherMap API and process weather data.
+    - Logs the weather forecast response.
 
 ## Tecnologias Utilizadas
 
@@ -37,10 +31,31 @@ A aplicação é composta pelos seguintes microserviços:
 - Git
 - GitHub
 
-## Fluxo de Execução
-Ao iniciar os microserviços, o **msweatherAPI** estará associado a porta **8080** na rota **localhost:8080/weather**.
+## Execution Flow
 
-1. O msweatherAPI recebe um objeto JSON com o nome de uma cidade.
-2. O msweatherAPI envia uma mensagem com o nome da cidade para a fila weather no RabbitMQ.
-3. O msresponseweather consome a mensagem da fila, chama a API do OpenWeatherMap via OpenFeign, e processa os dados meteorológicos.
-4. A resposta processada é exposta no log do microserviço **msresponseweather**.
+Once the microservices are running, msweatherAPI will be available on port **8080** at the endpoint **localhost:8080/weather**.
+
+1. msweatherAPI receives a JSON object containing the name of a city.
+2. msweatherAPI sends a message with the city name to the weather queue in RabbitMQ.
+3. msresponseweather consumes the message from the queue, calls the OpenWeatherMap API via OpenFeign, and processes the weather data.
+4. The processed response is logged in the msresponseweather microservice logs.
+
+## How to Use
+
+1. Pull or clone the project to a local folder.
+
+2. Open a terminal and execute the following command: **docker-compose up -d**. This will download and run the required project images (RabbitMQ, msweather, and msresponseweather).
+
+3. Open Postman and import the **CityCollection** file to access the POST route for sending a city name to the API. You can specify the city in the request body.
+
+4. Click **Send** in Postman to generate a request protocol, The weather queue will be persisted in RabbitMQ and the request will be sent through it..
+
+5. If the queue does not persist: Once the containers are running, navigate to **http://localhost:15672/#/queues** and create a new queue named **weather**. The name must match exactly for the services to locate the queue.  After creating the **weather** queue, you need to restart the **msresponseweather** container so that it can be associated.
+
+Stop the consumer container: **docker stop msresponseweather**
+Start the consumer container: **docker start msresponseweather**
+
+6. To view the processed information, check the logs of the **msresponseweather** container using the Docker command **"docker logs msresponseweather"**. The weather information for the specified city will be displayed. If an error occurs, stop the msresponseweather container and restart it using Docker Desktop or the **Docker stop/start commands**.
+
+Stop the consumer container: **docker stop msresponseweather**
+Start the consumer container: **docker start msresponseweather**
